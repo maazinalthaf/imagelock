@@ -18,7 +18,7 @@
             height: 100vh;
             background: #f0f0f0;
             overflow: hidden;
-            touch-action: none; /* Disables zooming */
+            touch-action: none; /* Disables pinch zooming */
         }
         #image-container {
             width: 90vw;
@@ -29,7 +29,7 @@
             justify-content: center;
             position: relative;
             background: white;
-            overflow: hidden; /* Prevents scroll/zoom issues */
+            overflow: hidden;
         }
         img {
             max-width: 100%;
@@ -37,6 +37,7 @@
             position: absolute;
             user-select: none;
             pointer-events: none; /* Prevent accidental selection */
+            transform-origin: center center;
         }
         .controls {
             margin-top: 10px;
@@ -55,12 +56,16 @@
     </div>
     <div class="controls">
         <input type="file" id="upload" accept="image/*">
+        <button onclick="zoomIn()">Zoom In</button>
+        <button onclick="zoomOut()">Zoom Out</button>
         <button onclick="clearImage()">Clear Image</button>
     </div>
 
     <script>
         const imageContainer = document.getElementById("image-container");
         const uploadInput = document.getElementById("upload");
+        let img = null;
+        let scale = 1; // Default zoom level
 
         uploadInput.addEventListener("change", function(event) {
             const file = event.target.files[0];
@@ -68,17 +73,34 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     imageContainer.innerHTML = "";
-                    const img = document.createElement("img");
+                    img = document.createElement("img");
                     img.src = e.target.result;
+                    img.style.transform = `scale(${scale})`;
                     imageContainer.appendChild(img);
                 };
                 reader.readAsDataURL(file);
             }
         });
 
+        function zoomIn() {
+            if (img) {
+                scale += 0.1;
+                img.style.transform = `scale(${scale})`;
+            }
+        }
+
+        function zoomOut() {
+            if (img && scale > 0.2) {
+                scale -= 0.1;
+                img.style.transform = `scale(${scale})`;
+            }
+        }
+
         function clearImage() {
             imageContainer.innerHTML = "<span>Upload an image to trace</span>";
             uploadInput.value = ""; // Reset file input
+            img = null;
+            scale = 1; // Reset zoom level
         }
     </script>
 </body>
