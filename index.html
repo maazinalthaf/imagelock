@@ -40,9 +40,10 @@
         .controls {
             width: 100%;
             display: flex;
+            flex-wrap: wrap; /* Allows buttons to wrap */
             justify-content: center;
             align-items: center;
-            gap: 10px;
+            gap: 5px;
             padding: 10px;
             background: white;
             position: fixed;
@@ -52,15 +53,15 @@
         }
 
         button {
-            padding: 10px 15px;
-            font-size: 16px;
+            padding: 8px 12px;
+            font-size: 14px;
             border: none;
             cursor: pointer;
             background: #007bff;
             color: white;
             border-radius: 5px;
             flex: 1;
-            max-width: 120px;
+            max-width: 100px; /* Reduce width for small screens */
         }
 
         button:hover {
@@ -68,8 +69,9 @@
         }
 
         input {
-            padding: 10px;
-            font-size: 16px;
+            padding: 8px;
+            font-size: 14px;
+            max-width: 140px;
         }
     </style>
 </head>
@@ -83,7 +85,7 @@
         <input type="file" id="imageLoader" accept="image/*">
         <button onclick="zoomIn()">Zoom In</button>
         <button onclick="zoomOut()">Zoom Out</button>
-        <button onclick="clearImage()">Clear Image</button>
+        <button onclick="clearImage()">Clear</button> <!-- Clear button now visible -->
     </div>
 
     <script>
