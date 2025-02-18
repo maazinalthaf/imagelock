@@ -5,13 +5,6 @@ A simple web tool that allows users to upload an image, zoom in/out, and trace o
 ## Website
 https://maazinalthaf.github.io/imagelock
 
-## Features
-
- Upload an Image – Load any image for tracing
- Zoom In/Out – Adjust image size for better tracing
- Clear Image – Remove the uploaded image
- Mobile-Friendly – Prevents accidental zooming & scrolling
-
 ## How to Use
 	1.	Open the website in a browser
 	2.	Click “Upload” to select an image
