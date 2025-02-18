@@ -40,14 +40,22 @@
             transform-origin: center center;
         }
         .controls {
-            margin-top: 10px;
-            display: flex;
-            gap: 10px;
-        }
-        button, input {
-            padding: 10px;
-            font-size: 16px;
-        }
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.9); /* Light background */
+    padding: 10px;
+    border-radius: 10px;
+    z-index: 1000; /* Make sure buttons are on top */
+}
+button, input {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
     </style>
 </head>
 <body>
