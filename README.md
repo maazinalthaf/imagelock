@@ -1,6 +1,6 @@
 # Image Lock
 
-A simple web tool that allows users to upload an image, zoom in/out, and trace over it using their phone or tablet screen without any accidential screen movement.
+Image lock is a simple web tool that allows users to upload an image, zoom in/out, and trace over it using their phone or tablet screen without any accidential screen movement.
 
 ## Website
 https://maazinalthaf.github.io/imagelock
