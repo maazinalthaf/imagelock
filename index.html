@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
     <title>Image Tracing Tool</title>
     <style>
         * {
@@ -19,10 +19,11 @@
             flex-direction: column;
             align-items: center;
             background: #f3f3f3;
+            touch-action: none; /* Disables pinch zoom and double-tap zoom */
         }
 
         #canvas-container {
-            flex-grow: 1; /* Takes available space */
+            flex-grow: 1;
             width: 100%;
             display: flex;
             justify-content: center;
@@ -82,7 +83,7 @@
         <input type="file" id="imageLoader" accept="image/*">
         <button onclick="zoomIn()">Zoom In</button>
         <button onclick="zoomOut()">Zoom Out</button>
-        <button onclick="clearImage()">Clear</button>
+        <button onclick="clearImage()">Clear Image</button>
     </div>
 
     <script>
