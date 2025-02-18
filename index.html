@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Image Tracer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #f0f0f0;
+            overflow: hidden;
+            touch-action: none; /* Disables zooming */
+        }
+        #image-container {
+            width: 90vw;
+            height: 80vh;
+            border: 2px dashed #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: white;
+            overflow: hidden; /* Prevents scroll/zoom issues */
+        }
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            position: absolute;
+            user-select: none;
+            pointer-events: none; /* Prevent accidental selection */
+        }
+        .controls {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+        button, input {
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div id="image-container">
+        <span>Upload an image to trace</span>
+    </div>
+    <div class="controls">
+        <input type="file" id="upload" accept="image/*">
+        <button onclick="clearImage()">Clear Image</button>
+    </div>
+
+    <script>
+        const imageContainer = document.getElementById("image-container");
+        const uploadInput = document.getElementById("upload");
+
+        uploadInput.addEventListener("change", function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imageContainer.innerHTML = "";
+                    const img = document.createElement("img");
+                    img.src = e.target.result;
+                    imageContainer.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function clearImage() {
+            imageContainer.innerHTML = "<span>Upload an image to trace</span>";
+            uploadInput.value = ""; // Reset file input
+        }
+    </script>
+</body>
+</html>
