@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Image Tracer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Tracing Tool</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             display: flex;
             flex-direction: column;
@@ -17,12 +18,14 @@
             justify-content: center;
             height: 100vh;
             background: #f0f0f0;
-            overflow: hidden;
-            touch-action: none; /* Disables pinch zooming */
+            overflow: hidden; /* Prevents scrolling */
+            touch-action: none; /* Prevents accidental zooming */
         }
+
         #image-container {
-            width: 90vw;
-            height: 80vh;
+            width: 90vw; /* Makes sure it fits in screen */
+            height: 75vh;
+            max-width: 600px;
             border: 2px dashed #333;
             display: flex;
             align-items: center;
@@ -31,85 +34,115 @@
             background: white;
             overflow: hidden;
         }
+
         img {
             max-width: 100%;
             max-height: 100%;
             position: absolute;
             user-select: none;
-            pointer-events: none; /* Prevent accidental selection */
+            pointer-events: none;
             transform-origin: center center;
         }
+
         .controls {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 10px;
-    background: rgba(255, 255, 255, 0.9); /* Light background */
-    padding: 10px;
-    border-radius: 10px;
-    z-index: 1000; /* Make sure buttons are on top */
-}
-button, input {
-    padding: 10px;
-    font-size: 16px;
-    cursor: pointer;
-}
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 10px;
+            z-index: 1000;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        button, input[type="file"] {
+            padding: 10px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            background: #007BFF;
+            color: white;
+            font-weight: bold;
+            outline: none;
+            flex: 1;
+            min-width: 80px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        input[type="file"] {
+            background: white;
+            color: black;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
+
     <div id="image-container">
-        <span>Upload an image to trace</span>
+        <p>Upload an image to trace</p>
     </div>
+
     <div class="controls">
         <input type="file" id="upload" accept="image/*">
-        <button onclick="zoomIn()">Zoom In</button>
-        <button onclick="zoomOut()">Zoom Out</button>
-        <button onclick="clearImage()">Clear Image</button>
+        <button id="zoomIn">Zoom In</button>
+        <button id="zoomOut">Zoom Out</button>
+        <button id="clear">Clear Image</button>
     </div>
 
     <script>
-        const imageContainer = document.getElementById("image-container");
-        const uploadInput = document.getElementById("upload");
-        let img = null;
-        let scale = 1; // Default zoom level
+        let image = null;
+        let scale = 1;
+        const scaleStep = 0.1;
 
-        uploadInput.addEventListener("change", function(event) {
+        document.getElementById("upload").addEventListener("change", function(event) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    imageContainer.innerHTML = "";
-                    img = document.createElement("img");
-                    img.src = e.target.result;
-                    img.style.transform = `scale(${scale})`;
-                    imageContainer.appendChild(img);
+                    if (!image) {
+                        image = document.createElement("img");
+                        image.id = "tracing-image";
+                        document.getElementById("image-container").innerHTML = "";
+                        document.getElementById("image-container").appendChild(image);
+                    }
+                    image.src = e.target.result;
+                    scale = 1; // Reset scale on new image
+                    image.style.transform = `scale(${scale})`;
                 };
                 reader.readAsDataURL(file);
             }
         });
 
-        function zoomIn() {
-            if (img) {
-                scale += 0.1;
-                img.style.transform = `scale(${scale})`;
+        document.getElementById("zoomIn").addEventListener("click", function() {
+            if (image) {
+                scale += scaleStep;
+                image.style.transform = `scale(${scale})`;
             }
-        }
+        });
 
-        function zoomOut() {
-            if (img && scale > 0.2) {
-                scale -= 0.1;
-                img.style.transform = `scale(${scale})`;
+        document.getElementById("zoomOut").addEventListener("click", function() {
+            if (image && scale > scaleStep) {
+                scale -= scaleStep;
+                image.style.transform = `scale(${scale})`;
             }
-        }
+        });
 
-        function clearImage() {
-            imageContainer.innerHTML = "<span>Upload an image to trace</span>";
-            uploadInput.value = ""; // Reset file input
-            img = null;
-            scale = 1; // Reset zoom level
-        }
+        document.getElementById("clear").addEventListener("click", function() {
+            document.getElementById("image-container").innerHTML = "<p>Upload an image to trace</p>";
+            image = null;
+        });
     </script>
+
 </body>
 </html>
